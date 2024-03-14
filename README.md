@@ -29,7 +29,7 @@
 <!-- ABOUT THE PROJECT -->
 ## PASSWORD GENERATOR 
 
-[![Product Name Screen Shot]][product-screenshot]
+[![Product Name Screen Shot][product-screenshot]]
 
 This is a mini project created by me in order to gain more knowledge on react. 
 This project serves the vital purpose of generating robust passwords essential for safeguarding our daily digital activities. In today's interconnected world, the significance of strong passwords cannot be overstated; the threat of accounts being compromised or hacked is ever-present, potentially leading to the exposure or leakage of sensitive personal or confidential data. With the aid of this password generator, we can effortlessly create strong passwords incorporating a mix of lowercase and uppercase letters, numbers, and symbols, thereby fortifying the security of our online accounts.
