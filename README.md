@@ -22,7 +22,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />
@@ -32,27 +31,26 @@
 
 [![Product Name Screen Shot][product-screenshot]]
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+This is a mini project created by me in order to gain more knowledge on react. 
+This project serves the vital purpose of generating robust passwords essential for safeguarding our daily digital activities. In today's interconnected world, the significance of strong passwords cannot be overstated; the threat of accounts being compromised or hacked is ever-present, potentially leading to the exposure or leakage of sensitive personal or confidential data. With the aid of this password generator, we can effortlessly create strong passwords incorporating a mix of lowercase and uppercase letters, numbers, and symbols, thereby fortifying the security of our online accounts.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+Features:
+* Have a beautiful, clean, and responsive UI that can work on both mobile and PC.
+* Users can select their preferences, and the system will provide results based on that.
+* Come with a password storage feature so users don't have to worry about forgetting their passwords.
+* Display the password strength alongside the password.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+This is just the beginning phase of the project, and there's plenty more in store for the future! Be sure to stay tuned, as exciting new features may be added down the line. 😁
 
 
 
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+This section provides a comprehensive list of the major frameworks and libraries utilized in the development of our project.
 
 * [![React][React.js]][React-url]
 * [![Firebase][Firebase]][Firebase-url]
-
 
 
 
@@ -79,9 +77,7 @@ Giri Krishna p - girikrishna.p6@gmail.com - https://www.linkedin.com/in/giri-kri
 [license-url]: https://github.com/GiriKrishnap/Password-Generator.svg?style=for-the-badge/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/giri-krishna-p/
-[product-screenshot]: /images/password%20generator%20image.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
+[product-screenshot]: /public/images/password%20generator%20image.png
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [Firebase]: https://img.shields.io/badge/firebase-0769AD?style=for-the-badge&logo=firebase&logoColor=white
 [Firebase-url]: https://firebase.google.com/
