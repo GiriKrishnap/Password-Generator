@@ -27,9 +27,9 @@
 <br />
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## PASSWORD GENERATOR 
 
-[![Product Name Screen Shot][product-screenshot]]
+[![Product Name Screen Shot]][product-screenshot]
 
 This is a mini project created by me in order to gain more knowledge on react. 
 This project serves the vital purpose of generating robust passwords essential for safeguarding our daily digital activities. In today's interconnected world, the significance of strong passwords cannot be overstated; the threat of accounts being compromised or hacked is ever-present, potentially leading to the exposure or leakage of sensitive personal or confidential data. With the aid of this password generator, we can effortlessly create strong passwords incorporating a mix of lowercase and uppercase letters, numbers, and symbols, thereby fortifying the security of our online accounts.
@@ -43,6 +43,7 @@ Features:
 This is just the beginning phase of the project, and there's plenty more in store for the future! Be sure to stay tuned, as exciting new features may be added down the line. 😁
 
 
+<br />
 
 
 ### Built With
@@ -53,11 +54,15 @@ This section provides a comprehensive list of the major frameworks and libraries
 * [![Firebase][Firebase]][Firebase-url]
 
 
+<br />
+
 
 <!-- CONTACT -->
-## Contact
+## Contact Me
 
-Giri Krishna p - girikrishna.p6@gmail.com - https://www.linkedin.com/in/giri-krishna-p/
+Name : Giri Krishna p
+Email : girikrishna.p6@gmail.com
+Linkedin : https://www.linkedin.com/in/giri-krishna-p/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
