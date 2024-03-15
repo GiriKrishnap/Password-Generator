@@ -7,7 +7,8 @@ import LoginComponent from '../components/login';
 import { style } from '../assets/modelStyle'
 import { toastError, toastSuccess } from '../assets/toast'
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 
 function Home() {
@@ -23,9 +24,16 @@ function Home() {
     const [loginState, setLoginState] = useState(false)
     const [loginModal, setLoginDiv] = useState(false);
     const [storeModal, setStoreModal] = useState(false);
+    const [email, setEmail] = useState('');
+    const [passwordsList, setPasswordsList] = useState([]);
 
-    const handleCopy = () => {
-        if (Password) {
+
+    const handleCopy = (passwordToCopy) => {
+
+        if (passwordToCopy) {
+            navigator.clipboard.writeText(passwordToCopy);
+            toastSuccess('copied to clipboard');
+        } else if (Password) {
             navigator.clipboard.writeText(Password);
             toastSuccess('copied to clipboard');
         } else {
@@ -65,13 +73,15 @@ function Home() {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const uid = user.uid;
-                console.log("user logined , uid - ", uid);
+                setEmail(user.email)
+                getPasswordsList(user.email)
+                console.log('user email - ', user.email);
                 setLoginDiv(false);
                 setLoginState(true)
-            } else {
 
-                setLoginState(false)
+            } else {
+                setEmail('');
+                setLoginState(false);
                 console.log("user is logged out");
             }
         });
@@ -93,6 +103,52 @@ function Home() {
             })
         }
     }
+
+    const handleStorePassword = async () => {
+        try {
+            if (!loginState) {
+                toastError('Please login for this feature');
+            } else if (!Password) {
+                toastError('Generate password first');
+            } else {
+
+                const docRef = doc(db, "passwords", email);
+                const docSnap = await getDoc(docRef);
+
+                if (!docSnap.data()) {
+
+                    await setDoc(doc(db, "passwords", email), {
+                        email,
+                        passwords: [Password]
+                    });
+
+                } else {
+
+                    await updateDoc(docRef, {
+                        passwords: arrayUnion(Password),
+                    });
+                }
+                getPasswordsList(email);
+                toastSuccess('Password stored successfully');
+            }
+
+        } catch (error) {
+            toastError('error while storing Password')
+            console.log(`
+                error in logout,
+                error message - ${error.message},
+                error code - ${error.code}
+                `);
+        }
+    }
+
+    const getPasswordsList = async (email) => {
+        const docRef = doc(db, "passwords", email);
+        const docSnap = await getDoc(docRef);
+        console.log('passwords list is here - ', docSnap.data().passwords);
+        setPasswordsList(docSnap.data().passwords)
+    }
+
 
     return (
 
@@ -125,32 +181,42 @@ function Home() {
                 <Box sx={{ ...style }} className='md:w-2/3 w-full'>
                     <p className='font-mono md:text-2xl m-2 text-center select-none'> - P a s s w o r d - S t o r e - </p>
                     <div id="child-modal-description" className='max-h-96 bg-gray-900 rounded-xl rounded-b-none 
-                    overflow-y-scroll p-7 flex flex-col gap-2 justify-center shadow-xl'>
+                    overflow-y-scroll p-7 flex flex-col gap-2 shadow-xl'>
 
+                        {
+                            passwordsList.length < 0 ?
+                                <p className='text-center text-xl font-mono'>I t s - E m p ty</p>
+                                : ''
+                        }
 
-                        <div className='flex flex-col md:flex-row
-                        justify-center place-items-center bg-gray-950 md:p-2 rounded-2xl
-                                        gap-2 md:pl-6 md:pr-6 p-7'>
-                            <div className='flex grow justify-center place-items-center gap-3'>
-                                <p className='font-mono tracking-widest'>1</p>
-                                <p className='md:inline pr-2 pl-2'>|</p>
-                                <p className='poppins tracking-widest grow text-center'>password is here</p>
-                                <p className='md:inline hidden pr-2 pl-2'>|</p>
-                            </div>
+                        {
+                            passwordsList.map((item, index) => (
+                                <>
+                                    <div className='flex flex-col md:flex-row
+                                               justify-center place-items-center bg-gray-950 md:p-2 rounded-2xl
+                                                gap-2 md:pl-6 md:pr-6 p-7'>
+                                        <div className='flex grow justify-center place-items-center gap-3'>
+                                            <p className='font-mono tracking-widest'>{index + 1}</p>
+                                            <p className='md:inline pr-2 pl-2'>|</p>
+                                            <p className='poppins tracking-widest grow text-center break-all'>{item}</p>
+                                            <p className='md:inline hidden pr-2 pl-2'>|</p>
+                                        </div>
 
-                            <div className='flex gap-3 justify-center place-items-center'>
-                                <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth
-                                w-28">
-                                    <i className="fa-solid fa-copy"></i>
-                                </button>
-                                <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
-                                 bg-red-950 smooth w-28">
-                                    <i className="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
+                                        <div className='flex gap-3 justify-center place-items-center'>
+                                            <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth w-28"
+                                                onClick={() => handleCopy(item)}>
+                                                <i className="fa-solid fa-copy"></i>
+                                            </button>
+                                            <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
+                                                                   bg-red-950 smooth w-28">
+                                                <i className="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
 
-
+                                    </div>
+                                </>
+                            ))
+                        }
 
                     </div>
                     <button onClick={() => setStoreModal(false)}
@@ -215,7 +281,8 @@ function Home() {
                         </Tooltip>
 
                         <Tooltip title="Save" placement='top'>
-                            <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth">
+                            <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth"
+                                onClick={handleStorePassword}>
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </button>
                         </Tooltip>
