@@ -8,7 +8,7 @@ import { style } from '../assets/modelStyle'
 import { toastError, toastSuccess } from '../assets/toast'
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '../firebase/config';
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 
 function Home() {
@@ -149,6 +149,25 @@ function Home() {
         setPasswordsList(docSnap.data().passwords)
     }
 
+    const handleRemovePassword = async (passwordToRemove) => {
+        try {
+            const docRef = doc(db, "passwords", email);
+            await updateDoc(docRef, {
+                passwords: arrayRemove(passwordToRemove),
+            });
+            getPasswordsList(email);
+            toastSuccess("Password removed successfully");
+            console.log("Password removed successfully");
+
+        } catch (error) {
+            toastError('error while removing password')
+            console.log(`
+                error in logout,
+                error message - ${error.message},
+                error code - ${error.code}
+                `);
+        }
+    }
 
     return (
 
@@ -184,7 +203,7 @@ function Home() {
                     overflow-y-scroll p-7 flex flex-col gap-2 shadow-xl'>
 
                         {
-                            passwordsList.length < 0 ?
+                            !passwordsList.length ?
                                 <p className='text-center text-xl font-mono'>I t s - E m p ty</p>
                                 : ''
                         }
@@ -208,7 +227,8 @@ function Home() {
                                                 <i className="fa-solid fa-copy"></i>
                                             </button>
                                             <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
-                                                                   bg-red-950 smooth w-28">
+                                                  bg-red-950 smooth w-28"
+                                                onClick={() => handleRemovePassword(item)}>
                                                 <i className="fa-solid fa-trash"></i>
                                             </button>
                                         </div>
