@@ -1,11 +1,13 @@
 import { Box, Modal, Tooltip } from '@mui/material'
 import { PrettoSlider } from '../assets/slider'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
+import { useEffect, useState } from 'react'
 import { passwordStrength } from 'check-password-strength'
 import { lowerCaseList, upperCaseList, numbersList, symbolsList, preference } from '../assets/passwordUtils';
 import LoginComponent from '../components/login';
 import { style } from '../assets/modelStyle'
+import { toastError, toastSuccess } from '../assets/toast'
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../firebase/config';
 
 
 function Home() {
@@ -17,41 +19,23 @@ function Home() {
     const [lowerCase, setLowerCase] = useState(false);
     const [numbers, setNumbers] = useState(false);
     const [symbols, setSymbols] = useState(false);
+    const [loginState, setLoginState] = useState(false)
 
     const [loginDiv, setLoginDiv] = useState(false);
 
     const handleCopy = () => {
         if (Password) {
             navigator.clipboard.writeText(Password);
-
-            toast.success('copied to clipboard', {
-                style: {
-                    borderRadius: '15px',
-                    background: '#344955', //error - EE4266 , success - 344955
-                    color: '#fff',
-                }
-            })
+            toastSuccess('copied to clipboard');
         } else {
-            toast.error('generate password first!', {
-                style: {
-                    borderRadius: '15px',
-                    background: '#EE4266', //error - EE4266 , success - 344955
-                    color: '#fff',
-                }
-            })
+            toastError('generate password first!');
         }
     }
 
     const handleGenerate = () => {
 
         if (!upperCase && !lowerCase && !numbers && !symbols) {
-            toast.error('please select your preference!', {
-                style: {
-                    borderRadius: '15px',
-                    background: '#EE4266', //error - EE4266 , success - 344955
-                    color: '#fff',
-                }
-            })
+            toastError('please select your preference!');
             setComplexity('')
             setPassword('')
             return
@@ -76,6 +60,39 @@ function Home() {
 
     }
 
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const uid = user.uid;
+                console.log("user logined , uid - ", uid);
+                setLoginDiv(false);
+                setLoginState(true)
+            } else {
+
+                setLoginState(false)
+                console.log("user is logged out");
+            }
+        });
+
+    }, [])
+
+    const handleLogout = () => {
+
+        if (loginState) {
+            signOut(auth).then(() => {
+                toastSuccess('logout successful');
+            }).catch((error) => {
+                toastError('error in logout')
+                console.log(`
+                error in logout,
+                error message - ${error.message},
+                error code - ${error.code}
+                `);
+            })
+        }
+    }
+
     return (
 
         <div className="flex flex-col justify-center place-items-center poppins bg-black md:bg-transparent
@@ -88,7 +105,7 @@ function Home() {
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
             >
-                <Box sx={{ ...style, width: 700 }}>
+                <Box sx={{ ...style }} className='md:w-1/2 w-full'>
                     <div id="child-modal-description">
                         <LoginComponent />
                     </div>
@@ -99,7 +116,7 @@ function Home() {
             {/*   - L O G I N  M O D E L  E N D ED - */}
 
 
-            <div className="bg-gray-950 rounded-lg shadow-black shadow-xl md:p-16 md:pb-10 smooth ">
+            <div className="md:bg-gray-950 rounded-lg shadow-black shadow-xl md:p-16 md:pb-10 smooth ">
 
                 <div className='flex justify-between'>
 
@@ -110,15 +127,27 @@ function Home() {
 
                     <div className='flex gap-3'>
 
-                        <Tooltip title="Account" placement='top'>
-                            <i className="fa-solid fa-circle-user fa-2xl mt-2 cursor-pointer text-gray-400
-                         hover:text-white smooth" onClick={() => setLoginDiv(true)}></i>
-                        </Tooltip>
+                        {
+                            loginState ?
+                                <Tooltip title="store" placement='top'>
+                                    <i className="fa-solid fa-database fa-xl mt-2 mr-2 cursor-pointer text-gray-400
+                         hover:text-white smooth" ></i>
+                                </Tooltip> : ''
+                        }
 
-                        <Tooltip title="logout" placement='top'>
-                            <i className="fa-solid fa-right-from-bracket fa-2xl mt-2 cursor-pointer text-gray-400
-                         hover:text-white smooth"></i>
-                        </Tooltip>
+
+                        {
+                            loginState ?
+                                <Tooltip title="logout" placement='top'>
+                                    <i className="fa-solid fa-right-from-bracket fa-2xl mt-2 cursor-pointer text-gray-400
+                         hover:text-white smooth" onClick={handleLogout}></i>
+                                </Tooltip>
+                                :
+                                <Tooltip title="Account" placement='top'>
+                                    <i className="fa-solid fa-circle-user fa-2xl mt-2 cursor-pointer text-gray-400
+                                    hover:text-white smooth" onClick={() => setLoginDiv(true)}></i>
+                                </Tooltip>
+                        }
 
                     </div>
 
@@ -147,6 +176,7 @@ function Home() {
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </button>
                         </Tooltip>
+
                     </div>
 
                 </div>
@@ -174,28 +204,28 @@ function Home() {
                 <div className='select-none flex flex-col md:flex-row gap-2 md:gap-0 justify-center mt-2'>
 
                     <p className={`${lowerCase ? 'text-white bg-gray-800 p-2.5' : 'text-gray-500 bg-gray-950 p-2 '}
-                     rounded-xl hover:text-white cursor-pointer hover:text-lg smooth font-mono`}
+                     rounded-xl hover:text-white cursor-pointer md:hover:text-lg smooth font-mono`}
                         onClick={() => setLowerCase(!lowerCase)}>
                         Include lowerCase (a ~ z)
                     </p>
                     <p className='md:inline hidden p-2'>|</p>
 
                     <p className={`${upperCase ? 'text-white bg-gray-800' : 'text-gray-500 bg-gray-950 p-2 '}
-                     rounded-xl hover:text-white cursor-pointer hover:text-lg smooth p-2.5 font-mono`}
+                     rounded-xl hover:text-white cursor-pointer md:hover:text-lg smooth p-2.5 font-mono`}
                         onClick={() => setUpperCase(!upperCase)}>
                         Include UpperCase (A ~ Z)
                     </p>
                     <p className='md:inline hidden p-2'>|</p>
 
                     <p className={`${numbers ? 'text-white bg-gray-800' : 'text-gray-500 bg-gray-950 p-2 '}
-                     rounded-xl hover:text-white cursor-pointer hover:text-lg smooth p-2.5 font-mono`}
+                     rounded-xl hover:text-white cursor-pointer md:hover:text-lg smooth p-2.5 font-mono`}
                         onClick={() => setNumbers(!numbers)}>
                         Include Numbers(0 ~ 1)
                     </p>
                     <p className='md:inline hidden p-2'>|</p>
 
                     <p className={`${symbols ? 'text-white bg-gray-800' : 'text-gray-500 bg-gray-950 p-2 '}
-                     rounded-xl hover:text-white cursor-pointer hover:text-lg smooth p-2.5 font-mono`}
+                     rounded-xl hover:text-white cursor-pointer md:hover:text-lg smooth p-2.5 font-mono`}
                         onClick={() => setSymbols(!symbols)}>
                         Include Symbols (! ~ &)
                     </p>

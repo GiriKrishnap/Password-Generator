@@ -1,6 +1,7 @@
+import { auth } from '../firebase/config';
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-
+import { toastError, toastSuccess } from '../assets/toast';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login() {
 
@@ -8,17 +9,47 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!email || !password) {
-            toast.error('fill the form first!', {
-                style: {
-                    borderRadius: '15px',
-                    background: '#EE4266', //error - EE4266 , success - 344955
-                    color: '#fff',
-                },
-            })
+
+            toastError('fill the form first!');
             return
         }
+        if (!login) {
+
+            //signIn
+            await createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log('user after login - ', user);
+                    toastSuccess('Signup Successful');
+
+                })
+                .catch((error) => {
+                    toastError(error.message);
+                    console.log(`
+                    error in signup,
+                    error message - ${error.message},
+                    error code - ${error.code}
+                    `)
+                })
+        } else {
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log('user after login - ', user);
+                    toastSuccess('login successful');
+                })
+                .catch((error) => {
+                    toastError('User not found')
+                    console.log(`
+                    error in login,
+                    error message - ${error.message},
+                    error code - ${error.code}
+                    `)
+                })
+        }
+
     }
 
     return (
@@ -30,12 +61,16 @@ export default function Login() {
                 {login ? " - l o g i n - " : ' - s i g n u p - '}
             </p>
 
-            <p className="text-xs opacity-40 font-mono">
+            <p className="text-xs opacity-40 font-mono md:block hidden">
                 {`c l i c k - a t -
              ${login ? "l o g i n" : 's i g n u p'}
              - f o r -
              ${login ? "s i g n u p :)" : 'l o g i n :)'}
               `}
+            </p>
+
+            <p className='block md:hidden text-xs opacity-40 font-mono'>
+                click on above text
             </p>
 
             <input type="email" placeholder="email" className="p-2 pl-3 rounded-lg w-full"
