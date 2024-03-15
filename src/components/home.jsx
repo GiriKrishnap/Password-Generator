@@ -19,9 +19,10 @@ function Home() {
     const [lowerCase, setLowerCase] = useState(false);
     const [numbers, setNumbers] = useState(false);
     const [symbols, setSymbols] = useState(false);
-    const [loginState, setLoginState] = useState(false)
 
-    const [loginDiv, setLoginDiv] = useState(false);
+    const [loginState, setLoginState] = useState(false)
+    const [loginModal, setLoginDiv] = useState(false);
+    const [storeModal, setStoreModal] = useState(false);
 
     const handleCopy = () => {
         if (Password) {
@@ -56,7 +57,7 @@ function Home() {
             tempPassword += characterList.charAt(characterIndex);
         }
         setPassword(tempPassword);
-        setComplexity(passwordStrength(tempPassword, preference).value, preference);
+        setComplexity(passwordStrength(tempPassword, preference).value);
 
     }
 
@@ -99,9 +100,9 @@ function Home() {
          select-none h-screen md:overflow-auto overflow-hidden">
 
 
-            {/*   - L O G I N  M O D E L  - */}
+            {/*   - L O G I N  M O D A L  - */}
             <Modal
-                open={loginDiv}
+                open={loginModal}
                 aria-labelledby="child-modal-title"
                 aria-describedby="child-modal-description"
             >
@@ -113,7 +114,42 @@ function Home() {
                         className='w-full hover:bg-slate-700 rounded-t-none'>C l o s e</button>
                 </Box>
             </Modal>
-            {/*   - L O G I N  M O D E L  E N D ED - */}
+            {/*   - L O G I N  M O D A L  E N D E D - */}
+
+            {/* - S T O R E  M O D A L -  */}
+            <Modal
+                open={storeModal}
+                aria-labelledby="child-modal-title"
+                aria-describedby="child-modal-description"
+            >
+                <Box sx={{ ...style }} className='md:w-2/3 w-full'>
+                    <div id="child-modal-description" className='max-h-96 bg-gray-900 rounded-xl rounded-b-none 
+                    overflow-y-scroll p-7 flex flex-col gap-2 justify-center shadow-xl'>
+
+                        <div className='flex  justify-center place-items-center bg-gray-950 p-2 rounded-2xl
+                                        gap-2 pl-6 pr-6'>
+
+                            <p className='font-mono tracking-widest'>1</p>
+                            <p className='md:inline p-2'>|</p>
+                            <p className='poppins tracking-widest grow text-center'>password is here</p>
+                            <p className='md:inline p-2'>|</p>
+                            <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth">
+                                <i className="fa-solid fa-copy"></i>
+                            </button>
+                            <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
+                            bg-red-950 smooth">
+                                <i className="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+
+
+                    </div>
+                    <button onClick={() => setStoreModal(false)}
+                        className='w-full hover:bg-slate-700 rounded-t-none'>C l o s e</button>
+                </Box>
+            </Modal>
+            {/* - S T O R E  M O D A L  E N D E D -  */}
 
 
             <div className="md:bg-gray-950 rounded-lg shadow-black shadow-xl md:p-16 md:pb-10 smooth ">
@@ -126,16 +162,15 @@ function Home() {
                     </p>
 
                     <div className='flex gap-3'>
-
+                        {/* STORE ICON */}
                         {
                             loginState ?
                                 <Tooltip title="store" placement='top'>
                                     <i className="fa-solid fa-database fa-xl mt-2 mr-2 cursor-pointer text-gray-400
-                         hover:text-white smooth" ></i>
+                         hover:text-white smooth" onClick={() => setStoreModal(true)}></i>
                                 </Tooltip> : ''
                         }
-
-
+                        {/* LOGOUT AND LOGIN ICON */}
                         {
                             loginState ?
                                 <Tooltip title="logout" placement='top'>
