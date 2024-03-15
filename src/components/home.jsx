@@ -123,23 +123,31 @@ function Home() {
                 aria-describedby="child-modal-description"
             >
                 <Box sx={{ ...style }} className='md:w-2/3 w-full'>
+                    <p className='font-mono md:text-2xl m-2 text-center select-none'> - P a s s w o r d - S t o r e - </p>
                     <div id="child-modal-description" className='max-h-96 bg-gray-900 rounded-xl rounded-b-none 
                     overflow-y-scroll p-7 flex flex-col gap-2 justify-center shadow-xl'>
 
-                        <div className='flex  justify-center place-items-center bg-gray-950 p-2 rounded-2xl
-                                        gap-2 pl-6 pr-6'>
 
-                            <p className='font-mono tracking-widest'>1</p>
-                            <p className='md:inline p-2'>|</p>
-                            <p className='poppins tracking-widest grow text-center'>password is here</p>
-                            <p className='md:inline p-2'>|</p>
-                            <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth">
-                                <i className="fa-solid fa-copy"></i>
-                            </button>
-                            <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
-                            bg-red-950 smooth">
-                                <i className="fa-solid fa-trash"></i>
-                            </button>
+                        <div className='flex flex-col md:flex-row
+                        justify-center place-items-center bg-gray-950 md:p-2 rounded-2xl
+                                        gap-2 md:pl-6 md:pr-6 p-7'>
+                            <div className='flex grow justify-center place-items-center gap-3'>
+                                <p className='font-mono tracking-widest'>1</p>
+                                <p className='md:inline pr-2 pl-2'>|</p>
+                                <p className='poppins tracking-widest grow text-center'>password is here</p>
+                                <p className='md:inline hidden pr-2 pl-2'>|</p>
+                            </div>
+
+                            <div className='flex gap-3 justify-center place-items-center'>
+                                <button className="hover:bg-white grow hover:text-black hover:mt-3 smooth
+                                w-28">
+                                    <i className="fa-solid fa-copy"></i>
+                                </button>
+                                <button className="hover:bg-white grow hover:text-red-900 hover:mt-3
+                                 bg-red-950 smooth w-28">
+                                    <i className="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
 
 
