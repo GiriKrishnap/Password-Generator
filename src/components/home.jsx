@@ -210,10 +210,10 @@ function Home() {
 
                         {
                             passwordsList.map((item, index) => (
-                                <>
+                                <div key={index}>
                                     <div className='flex flex-col md:flex-row
                                                justify-center place-items-center bg-gray-950 md:p-2 rounded-2xl
-                                                gap-2 md:pl-6 md:pr-6 p-7'>
+                                                gap-2 md:pl-6 md:pr-6 p-7' >
                                         <div className='flex grow justify-center place-items-center gap-3'>
                                             <p className='font-mono tracking-widest'>{index + 1}</p>
                                             <p className='md:inline pr-2 pl-2'>|</p>
@@ -234,7 +234,7 @@ function Home() {
                                         </div>
 
                                     </div>
-                                </>
+                                </div>
                             ))
                         }
 
