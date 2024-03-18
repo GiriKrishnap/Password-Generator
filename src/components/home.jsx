@@ -30,10 +30,10 @@ function Home() {
 
     const handleCopy = (passwordToCopy) => {
 
-        if (passwordToCopy) {
+        if (passwordToCopy.length > 0) {
             navigator.clipboard.writeText(passwordToCopy);
             toastSuccess('copied to clipboard');
-        } else if (Password) {
+        } else if (Password.length > 0) {
             navigator.clipboard.writeText(Password);
             toastSuccess('copied to clipboard');
         } else {
