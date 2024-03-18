@@ -30,6 +30,8 @@
 ## PASSWORD GENERATOR 
 
 [![Product Name Screen Shot][product-screenshot]]
+[![Product Name Screen Shot][product-screenshot2]]
+
 
 This is a mini project created by me in order to gain more knowledge on react. 
 This project serves the vital purpose of generating robust passwords essential for safeguarding our daily digital activities. In today's interconnected world, the significance of strong passwords cannot be overstated; the threat of accounts being compromised or hacked is ever-present, potentially leading to the exposure or leakage of sensitive personal or confidential data. With the aid of this password generator, we can effortlessly create strong passwords incorporating a mix of lowercase and uppercase letters, numbers, and symbols, thereby fortifying the security of our online accounts.
@@ -82,7 +84,8 @@ Linkedin : https://www.linkedin.com/in/giri-krishna-p/
 [license-url]: https://github.com/GiriKrishnap/Password-Generator.svg?style=for-the-badge/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/giri-krishna-p/
-[product-screenshot]: /public/images/password%20generator%20image.png
+[product-screenshot]: /public/images/show.png
+[product-screenshot2]: /public/images/password%20generator%20image.png
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [Firebase]: https://img.shields.io/badge/firebase-0769AD?style=for-the-badge&logo=firebase&logoColor=white
 [Firebase-url]: https://firebase.google.com/
